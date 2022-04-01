@@ -1,0 +1,15 @@
+app.conf
+tmp
+vendor/
+output/
+.statsd/
+.swp
+.swo
+.swn
+linker
+/log
+.idea/
+nohup.out
+.idea/workspace.xml
+go_build_main_go
+.DS_Store
