@@ -24,5 +24,6 @@ func (ec *EngineConfig) SetLogicFilterMap(logicFilterMap map[string]logic.LogicF
 }
 
 var (
+	// EC 将决策节点配置到map结构中，也可以将这样的map结构抽取到数据库中
 	EC = EngineConfig{logicFilterMap: map[string]logic.LogicFilter{"userAge": impl.UserAgeFilter{}, "userGender": impl.UserGenderFilter{}}}
 )

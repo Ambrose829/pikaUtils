@@ -12,5 +12,5 @@ import (
 */
 
 type IEngine interface {
-	process(treeId int64, userId string, rich aggregates.TreeRich, decisionMatter map[string]string) vo.EngineResult
+	Process(treeId int64, userId string, treeRich aggregates.TreeRich, decisionMatter map[string]string) vo.EngineResult
 }

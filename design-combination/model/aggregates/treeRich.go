@@ -9,15 +9,19 @@ import "pikaUtils/design-combination/model/vo"
 */
 
 type TreeRich struct {
-	treeRoot vo.TreeNode
+	treeRoot    vo.TreeRoot
 	treeNodeMap map[int64]vo.TreeNode
 }
 
-func (trh *TreeRich) TreeRoot() vo.TreeNode {
+func NewTreeRich(treeRoot vo.TreeRoot, treeNodeMap map[int64]vo.TreeNode) *TreeRich {
+	return &TreeRich{treeRoot: treeRoot, treeNodeMap: treeNodeMap}
+}
+
+func (trh *TreeRich) TreeRoot() vo.TreeRoot {
 	return trh.treeRoot
 }
 
-func (trh *TreeRich) SetTreeRoot(treeRoot vo.TreeNode) {
+func (trh *TreeRich) SetTreeRoot(treeRoot vo.TreeRoot) {
 	trh.treeRoot = treeRoot
 }
 
@@ -28,5 +32,3 @@ func (trh *TreeRich) TreeNodeMap() map[int64]vo.TreeNode {
 func (trh *TreeRich) SetTreeNodeMap(treeNodeMap map[int64]vo.TreeNode) {
 	trh.treeNodeMap = treeNodeMap
 }
-
-

@@ -15,6 +15,10 @@ type EngineResult struct {
 
 }
 
+func NewEngineResult(userId string, treeId int64, nodeId int64, nodeValue string) *EngineResult {
+	return &EngineResult{userId: userId, treeId: treeId, nodeId: nodeId, nodeValue: nodeValue}
+}
+
 func (er *EngineResult) IsSuccess() bool {
 	return er.isSuccess
 }

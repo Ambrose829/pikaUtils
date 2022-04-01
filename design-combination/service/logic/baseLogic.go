@@ -12,10 +12,20 @@ import (
   @Description: 基础策略
 */
 
+const (
+	// EQ 等于
+	EQ = 1
+	// GT 大于
+	GT = 2
+	// LT 小于
+	LT = 3
+	// GTE 大于等于
+	GTE = 4
+	// LTE 小于等于
+	LTE = 5
+)
+
 type BaseLogic struct {
-
-
-
 }
 
 func (bl BaseLogic) Filter(matterValue string, treeNodeLineInfoList []vo.TreeNodeLink) int64 {
@@ -44,19 +54,19 @@ func (bl BaseLogic) decisionLogic(matterValue string, nodeLink vo.TreeNodeLink) 
 	// 验证规则符号限定类型
 	switch nodeLink.RuleLimitType() {
 	// =
-	case 1:
+	case EQ:
 		return strings.EqualFold(matterValue, nodeLink.RuleLimitValue())
 	// >
-	case 2:
+	case GT:
 		return util.Str2F64(matterValue) > util.Str2F64(nodeLink.RuleLimitValue())
 	// <
-	case 3:
+	case LT:
 		return util.Str2F64(matterValue) < util.Str2F64(nodeLink.RuleLimitValue())
 	// >=
-	case 4:
+	case GTE:
 		return util.Str2F64(matterValue) >= util.Str2F64(nodeLink.RuleLimitValue())
 	// <=
-	case 5:
+	case LTE:
 		return util.Str2F64(matterValue) <= util.Str2F64(nodeLink.RuleLimitValue())
 	default:
 		return false
