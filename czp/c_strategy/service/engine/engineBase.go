@@ -1,9 +1,8 @@
 package engine
 
 import (
+	"pikaUtils/czp/c_strategy/model/vo"
 	"pikaUtils/czp/c_strategy/service/filter/impl"
-	"pikaUtils/design-combination/model/aggregates"
-	"pikaUtils/design-combination/model/vo"
 )
 
 /**
@@ -16,5 +15,12 @@ type EngineBase struct {
 	IEngine
 }
 
-func (eb EngineBase) EngineDecisionMaker(filterChan impl.FilterChan, chanRich aggregates.ChanRich, decisionMatter []vo.Strategy) vo.TreeNode {
+func (eb EngineBase) EngineDecisionMaker(filterChan impl.FilterChan, decisionMatter []vo.Strategy) (passStrategy []vo.Strategy) {
+	for _, strategy := range decisionMatter {
+		pass := filterChan.Execute(strategy)
+		if pass {
+			passStrategy = append(passStrategy, strategy)
+		}
+	}
+	return
 }

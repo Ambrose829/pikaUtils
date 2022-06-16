@@ -11,7 +11,8 @@ import "pikaUtils/czp/c_strategy/model/vo"
 // LogicFilter 策略过滤器接口
 type LogicFilter interface {
 	// Filter 过滤
-	Filter(matterValue string, chanNodeLineInfoList []vo.ChanNodeLink) bool
+	Filter(strategy vo.Strategy) bool
 
+	// MatterValue 获取需要验证的值
 	MatterValue(strategy vo.Strategy) string
 }

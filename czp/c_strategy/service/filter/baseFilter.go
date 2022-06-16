@@ -1,7 +1,6 @@
 package filter
 
 import (
-	"pikaUtils/czp/c_strategy/model/vo"
 	"pikaUtils/util"
 	"strings"
 )
@@ -40,45 +39,43 @@ type BaseFilter struct {
 	ruleLimitValue string //限定值
 }
 
-func (bf BaseFilter) Filter(matterValue string, chanNodeLineList []vo.ChanNodeLink) bool {
-	for _, nodeLink := range chanNodeLineList {
-		if !bf.decisionLogic(matterValue, nodeLink) {
-			return false
-		}
+func NewBaseFilter(ruleLimitType int, ruleLimitValue string) *BaseFilter {
+	return &BaseFilter{ruleLimitType: ruleLimitType, ruleLimitValue: ruleLimitValue}
+}
+
+func (bf BaseFilter) Filter(matterValue string) bool {
+	if !bf.decisionLogic(matterValue) {
+		return false
 	}
 	return true
 }
 
-func (bf BaseFilter) MatterValue(strategy vo.Strategy) string {
-	return ""
-}
-
-func (bf BaseFilter) decisionLogic(matterValue string, nodeLink vo.ChanNodeLink) bool {
+func (bf BaseFilter) decisionLogic(matterValue string) bool {
 	// 验证规则符号限定类型
-	switch nodeLink.RuleLimitType() {
+	switch bf.ruleLimitType {
 
 	// =
 	case EQ:
-		return strings.EqualFold(matterValue, nodeLink.RuleLimitValue())
+		return strings.EqualFold(matterValue, bf.RuleLimitValue())
 	// >
 	case GT:
-		return util.Str2F64(matterValue) > util.Str2F64(nodeLink.RuleLimitValue())
+		return util.Str2F64(matterValue) > util.Str2F64(bf.RuleLimitValue())
 	// <
 	case LT:
-		return util.Str2F64(matterValue) < util.Str2F64(nodeLink.RuleLimitValue())
+		return util.Str2F64(matterValue) < util.Str2F64(bf.RuleLimitValue())
 	// >=
 	case GTE:
-		return util.Str2F64(matterValue) >= util.Str2F64(nodeLink.RuleLimitValue())
+		return util.Str2F64(matterValue) >= util.Str2F64(bf.RuleLimitValue())
 	// <=
 	case LTE:
-		return util.Str2F64(matterValue) <= util.Str2F64(nodeLink.RuleLimitValue())
+		return util.Str2F64(matterValue) <= util.Str2F64(bf.RuleLimitValue())
 	// !=
 	case UEQ:
-		return !strings.EqualFold(matterValue, nodeLink.RuleLimitValue())
+		return !strings.EqualFold(matterValue, bf.RuleLimitValue())
 	// in
 	case IN:
 		// 限制值包含要决策的值
-		list := strings.Split(nodeLink.RuleLimitValue(), ",")
+		list := strings.Split(bf.RuleLimitValue(), ",")
 		for _, rlv := range list {
 			isPass := strings.EqualFold(matterValue, rlv)
 			// 包含决策值
@@ -93,7 +90,7 @@ func (bf BaseFilter) decisionLogic(matterValue string, nodeLink vo.ChanNodeLink)
 	// not in
 	case NIN:
 		// 限制值不包含要决策的值
-		list := strings.Split(nodeLink.RuleLimitValue(), ",")
+		list := strings.Split(bf.RuleLimitValue(), ",")
 		for _, rlv := range list {
 			isPass := strings.EqualFold(matterValue, rlv)
 			// 包含决策值
@@ -109,7 +106,7 @@ func (bf BaseFilter) decisionLogic(matterValue string, nodeLink vo.ChanNodeLink)
 		// 要决策的值包含限制值
 		list := strings.Split(matterValue, ",")
 		for _, mv := range list {
-			isPass := strings.EqualFold(mv, nodeLink.RuleLimitValue())
+			isPass := strings.EqualFold(mv, bf.RuleLimitValue())
 			//	如果包含限制值
 			if isPass {
 				return true
@@ -123,7 +120,7 @@ func (bf BaseFilter) decisionLogic(matterValue string, nodeLink vo.ChanNodeLink)
 		// 要决策的值不包含限制值
 		list := strings.Split(matterValue, ",")
 		for _, mv := range list {
-			isPass := strings.EqualFold(mv, nodeLink.RuleLimitValue())
+			isPass := strings.EqualFold(mv, bf.RuleLimitValue())
 			//	如果包含限制值
 			if isPass {
 				return false
@@ -153,3 +150,7 @@ func (bf *BaseFilter) RuleLimitValue() string {
 func (bf *BaseFilter) SetRuleLimitValue(ruleLimitValue string) {
 	bf.ruleLimitValue = ruleLimitValue
 }
+
+//func (bf BaseFilter) MatterValue(strategy vo.Strategy) string {
+//	return ""
+//}

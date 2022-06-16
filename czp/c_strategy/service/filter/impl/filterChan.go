@@ -13,26 +13,26 @@ import (
 
 // FilterChan 过滤器链
 type FilterChan struct {
-	filters []filter.Filter
+	filters []filter.LogicFilter
 	Target  string //目的
 }
 
 // AddFilter 增加过滤器
-func (fc FilterChan) AddFilter(filter filter.Filter) {
+func (fc *FilterChan) AddFilter(filter filter.LogicFilter) {
 	fc.filters = append(fc.filters, filter)
 }
 
 // 初始化目的
-func (fc FilterChan) SetTarget(target string) {
+func (fc *FilterChan) SetTarget(target string) {
 	fc.Target = target
 }
 
 // Execute 处理过滤器
-func (fc FilterChan) Execute(strategy vo.Strategy, chanNodeLineList []vo.ChanNodeLink) bool {
+func (fc *FilterChan) Execute(strategy vo.Strategy) bool {
 
 	for _, filter := range fc.filters {
 		// todo 注释
-		isSuccess := filter.Execute(filter.MatterValue(strategy), chanNodeLineList)
+		isSuccess := filter.Filter(strategy)
 
 		// 未通过决策
 		if !isSuccess {

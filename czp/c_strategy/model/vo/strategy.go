@@ -7,4 +7,6 @@ package vo
 */
 
 type Strategy struct {
+	CityList string
+	BizTypes string
 }

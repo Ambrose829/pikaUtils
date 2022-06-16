@@ -10,13 +10,13 @@ import "pikaUtils/czp/c_strategy/service/filter"
 
 // Criteria 规则
 type Criteria struct {
-	filters []filter.Filter
+	filters []filter.LogicFilter
 }
 
-func (ctr *Criteria) Filters() []filter.Filter {
+func (ctr *Criteria) Filters() []filter.LogicFilter {
 	return ctr.filters
 }
 
-func (ctr *Criteria) SetFilters(filters ...filter.Filter) {
+func (ctr *Criteria) SetFilters(filters ...filter.LogicFilter) {
 	ctr.filters = filters
 }

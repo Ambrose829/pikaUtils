@@ -15,12 +15,16 @@ type OrCriteria struct {
 	ctr Criteria
 }
 
-func (oc OrCriteria) Execute(strategy vo.Strategy) bool {
+func (oc OrCriteria) Filter(strategy vo.Strategy) bool {
 	for _, f := range oc.ctr.Filters() {
-		isPass := f.Execute(strategy)
+		isPass := f.Filter(strategy)
 		if isPass {
 			return true
 		}
 	}
 	return false
+}
+
+func (oc OrCriteria) MatterValue(strategy vo.Strategy) string {
+	return ""
 }
